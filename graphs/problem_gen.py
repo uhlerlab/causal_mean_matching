@@ -1,5 +1,5 @@
 import numpy as np
-from .DAG_gen import random_graph, line_graph, tree_graph, complete_graph, shanmugam_random_chordal, random_directed_tree, tree_of_cliques
+from .DAG_gen import *
 
 
 class mean_match(object):
@@ -13,7 +13,8 @@ class mean_match(object):
             'complete': complete_graph,
             'shanmugam': shanmugam_random_chordal,
             'd_tree': random_directed_tree,
-            'clique_tree': tree_of_cliques
+            'clique_tree': tree_of_cliques,
+            'barbasi_albert': barabasi_albert_graph
             }.get(sampler, None)
         assert type_graph, "unsupported sampler!"
         self.DAG = type_graph(nnodes)

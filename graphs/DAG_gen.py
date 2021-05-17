@@ -46,7 +46,7 @@ def tree_graph(nnodes):
 
 def complete_graph(nnodes):
     """
-    complte graph
+    complete graph
     """
     dag = gm.DAG(set(range(nnodes)))
 
@@ -58,6 +58,9 @@ def complete_graph(nnodes):
 
 
 def shanmugam_random_chordal(nnodes, density=.2):
+    """
+    random chordal graph with no v-structure
+    """
     while True:
         d = nx.DiGraph()
         d.add_nodes_from(set(range(nnodes)))
@@ -78,7 +81,7 @@ def shanmugam_random_chordal(nnodes, density=.2):
 
 def random_directed_tree(nnodes):
     """
-    Generate a random undirected tree, then pick a random root to make it directed.
+    random tree with no v-structure
     """
     g = nx.random_tree(nnodes)
     root = random.randint(0, nnodes-1)
@@ -95,6 +98,9 @@ def random_directed_tree(nnodes):
 
 
 def tree_of_cliques(nnodes, degree=3, min_clique_size=3, max_clique_size=5):
+    """
+    random tree of cliques with no v-structure
+    """
     counter = random.randint(min_clique_size, max_clique_size)
     source_clique = list(range(counter))
     previous_layer_cliques = [source_clique]
@@ -124,4 +130,20 @@ def tree_of_cliques(nnodes, degree=3, min_clique_size=3, max_clique_size=5):
     # if not nx.is_connected(g.to_undirected()):
         # raise RuntimeError
     return gm.DAG.from_nx(g)
-    
+
+
+def barabasi_albert_graph(nnodes, m=2):
+    """
+    barabasi albert graph with random orientaions
+    """
+    g = nx.barabasi_albert_graph(nnodes, m)
+
+    dag = gm.DAG(set(range(nnodes)))
+    perm = np.random.permutation(nnodes)
+    for (i,j) in g.edges:
+        if perm[i] < perm[j]:
+            dag.add_arc(i,j)
+        else:
+            dag.add_arc(j,i)
+
+    return dag
