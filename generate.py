@@ -1,6 +1,7 @@
 import os
 import pickle
 import argparse
+from tqdm import tqdm
 
 from graphs import mean_match
 
@@ -22,7 +23,7 @@ if __name__=='__main__':
         os.makedirs(file_dir)
 
     problems = []
-    for i in range(opts.dataset_size):
+    for i in tqdm(range(opts.dataset_size)):
         P = mean_match(opts.nnodes, opts.sampler, opts.sparse)
         problems.append(P)
         
