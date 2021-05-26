@@ -4,7 +4,7 @@ import pickle
 from tqdm import tqdm
 
 from graphs import mean_match
-from policys import random_policy, clique_tree_policy, submodular_policy
+from policys import random_policy, clique_tree_policy, submodular_policy, oracle_policy, structure_policy
 
 
 def run_policy(file, policy, size, opts):
@@ -28,6 +28,7 @@ def run_policy(file, policy, size, opts):
     savename = os.path.join(opts.results_dir, "{}_size{}_{}".format(opts.policy, size, filename))
     with open(savename, 'wb') as f:
         pickle.dump(ints, f, pickle.HIGHEST_PROTOCOL)
+    return
 
 
 if __name__ == '__main__':
@@ -42,7 +43,9 @@ if __name__ == '__main__':
     policy = {
         'random': random_policy,
         'clique': clique_tree_policy,
-        'submodular': submodular_policy
+        'submodular': submodular_policy,
+        'oracle': oracle_policy,
+        'structure': structure_policy
     }.get(opts.policy, None)
     assert policy is not None, "please specify a supported policy!"
 
